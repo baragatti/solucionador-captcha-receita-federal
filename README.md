@@ -30,3 +30,17 @@ Para deixar o microservice rodando, basta executar o comando
 ```
 node index.js
 ```
+### Como usar
+Basta enviar uma requisição REST, como POST, para o endpoint /solucionar, enviando o arquivo de imagem no parâmetro "arquivo".
+
+O resultado é retornado sempre em JSON, e retornará com código de status do HTTP 200 em caso de sucesso.
+
+Exemplo de retorno com sucesso
+```json
+{ "resultado": "abcdef" }
+```
+
+Exemplo de retorno com erro
+```json
+{ "erro": "Descrição do erro" }
+```
