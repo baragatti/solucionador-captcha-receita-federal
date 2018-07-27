@@ -30,7 +30,7 @@ rscript install.R
 No momento a configuração do projeto é bem simples, contendo apenas parâmetros estritamente necessários.
 
 A configuração se encontra no arquivo config.json, conforme exemplo abaixo
-```json
+```json5
 { 
   "porta": 8080 // Porta utizada pelo servidor
 }
