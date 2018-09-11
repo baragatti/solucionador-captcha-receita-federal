@@ -18,7 +18,8 @@ const configuracoes = (() => {
 })();
 
 app.use(fileUpload());
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded());
 
 // Endpoints
 app.post('/solucionar', function (req, res) {
