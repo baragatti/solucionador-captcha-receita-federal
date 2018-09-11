@@ -1,7 +1,6 @@
 // Imports
 const express = require('express');
 const fileUpload = require('express-fileupload');
-const bodyParser = require('body-parser');
 const rscript = require('js-call-r');
 const tmp = require('tmp');
 const fs = require('fs');
