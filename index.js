@@ -1,9 +1,11 @@
 // Imports
 const express = require('express');
+const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const rscript = require('js-call-r');
 const tmp = require('tmp');
 const fs = require('fs');
+const imageType = require('image-type')
 const app = express();
 
 // Configurações
@@ -18,7 +20,6 @@ const configuracoes = (() => {
 
 app.use(fileUpload());
 app.use(express.json());
-app.use(express.urlencoded());
 
 // Endpoints
 app.post('/solucionar', function (req, res) {
@@ -40,9 +41,39 @@ app.post('/solucionar', function (req, res) {
       arquivo: caminhoArquivo
     }).then((result) => {
       res.json({resultado: result.resultado});
+      fs.unlink(caminhoArquivo, (err) => null);
     }).catch(err => {
       res.status(500).json({erro: "Falha ao processar captcha"});
-    }).finally(() => fs.unlink(caminhoArquivo, (err) => null));
+      fs.unlink(caminhoArquivo, (err) => null);
+    });
+  });
+});
+
+app.post('/solucionar-base64', function (req, res) {
+  if (!req.body.arquivo)
+    return res.status(400).json({erro: "Nenhum arquivo foi enviado"});
+
+  const dadosImagem = Buffer.from(req.body.arquivo, 'base64');
+  let tipoImagem = imageType(dadosImagem);
+
+  if ((tipoImagem['mime'].indexOf('image/') !== 0) || (configuracoes.extensoesPermitidas.indexOf(tipoImagem['ext']) === -1))
+    return res.status(400).json({erro: "Tipo de arquivo não permitido"});
+
+  let caminhoArquivo = tmp.tmpNameSync({postfix: ("." + tipoImagem['ext'])});
+
+  fs.writeFile(caminhoArquivo, dadosImagem, 'binary', function (err) {
+    if (err)
+      return res.status(500).json({erro: "Falha ao processar imagem"});
+
+    rscript.call('captcha.R', {
+      arquivo: caminhoArquivo
+    }).then((result) => {
+      res.json({resultado: result.resultado});
+      fs.unlink(caminhoArquivo, (err) => null);
+    }).catch(err => {
+      res.status(500).json({erro: "Falha ao processar captcha"});
+      fs.unlink(caminhoArquivo, (err) => null);
+    });
   });
 });
 
