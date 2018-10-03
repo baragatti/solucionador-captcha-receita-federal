@@ -22,18 +22,19 @@ npm install
 
 Instale as dependências do Python
 ```
-pip install tensorflow keras virtualenv h5py --user
+pip install -Iv tensorflow==1.5.0 keras virtualenv h5py --user
 ```
-
-Versões testadas das dependências
-tensorflow 1.9.0
-keras 2.2.0
-h5py 2.8.0
 
 E, finalmente, instale dependências da linguagem R
 ```
 rscript install.R
 ```
+
+Para testar se as dependências foram instaladas corretamente, vá até a pasta do projeto, e execute o comando
+```
+rscript test.R
+```
+Deverá ser exibido no console uma mensagem contendo o resultado "tkozf6"
 
 ### Configuração
 No momento a configuração do projeto é bem simples, contendo apenas parâmetros estritamente necessários.
