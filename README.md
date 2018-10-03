@@ -4,6 +4,10 @@
 * NodeJS >= 6
 * Python
 * RScript
+* openssl-dev
+* libcurl-dev
+* libhdf5-dev
+* libmagick++-dev (Não necessário para Windows)
 
 ### Instalação
 Crie uma pasta para baixar o projeto e clone o projeto usando
@@ -18,8 +22,13 @@ npm install
 
 Instale as dependências do Python
 ```
-pip install tensorflow keras h5py --user
+pip install tensorflow keras virtualenv h5py --user
 ```
+
+Versões testadas das dependências
+tensorflow 1.9.0
+keras 2.2.0
+h5py 2.8.0
 
 E, finalmente, instale dependências da linguagem R
 ```
@@ -42,16 +51,23 @@ Para deixar o microservice rodando, basta executar o comando
 node index.js
 ```
 ### Como usar
-Basta enviar uma requisição REST, como POST, para o endpoint /solucionar, enviando o arquivo de imagem no parâmetro "arquivo".
+
+#### Endpoint /solucionar
+Basta enviar uma requisição REST, como POST, para o endpoint, enviando o arquivo de imagem no parâmetro "arquivo".
 
 O resultado é retornado sempre em JSON, e retornará com código de status do HTTP 200 em caso de sucesso.
 
-Exemplo de retorno com sucesso
+#### Endpoint /solucionar-base64
+Basta enviar uma requisição REST, como POST, para o endpoint, enviando o arquivo de imagem como base64 no parâmetro "arquivo".
+
+O resultado é retornado sempre em JSON, e retornará com código de status do HTTP 200 em caso de sucesso.
+
+#### Exemplo de retorno com sucesso
 ```json
 { "resultado": "abcdef" }
 ```
 
-Exemplo de retorno com erro
+#### Exemplo de retorno com erro
 ```json
 { "erro": "Descrição do erro" }
 ```

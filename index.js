@@ -1,6 +1,5 @@
 // Imports
 const express = require('express');
-const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const rscript = require('js-call-r');
 const tmp = require('tmp');
@@ -43,7 +42,7 @@ app.post('/solucionar', function (req, res) {
       res.json({resultado: result.resultado});
       fs.unlink(caminhoArquivo, (err) => null);
     }).catch(err => {
-      res.status(500).json({erro: "Falha ao processar captcha"});
+      res.status(500).json({erro: "Falha ao processar captcha", stack: err});
       fs.unlink(caminhoArquivo, (err) => null);
     });
   });
@@ -71,12 +70,12 @@ app.post('/solucionar-base64', function (req, res) {
       res.json({resultado: result.resultado});
       fs.unlink(caminhoArquivo, (err) => null);
     }).catch(err => {
-      res.status(500).json({erro: "Falha ao processar captcha"});
+      res.status(500).json({erro: "Falha ao processar captcha", stack: err});
       fs.unlink(caminhoArquivo, (err) => null);
     });
   });
 });
 
-app.listen(configuracoes.porta, () => {
+app.listen(configuracoes.porta, '0.0.0.0', () => {
   console.log("Servidor iniciado na porta " + configuracoes.porta);
 });
